@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import random
-DEBUG=0
+DEBUG = 0
+
+
 class MarkovChain:
     """Generates Markov Chain given list of input files input(s)."""
 
@@ -30,7 +32,8 @@ class MarkovChain:
         # Trim last few elems of seq.
         #seq = seq[0:len(seq) - (len(seq) % lookback) + 1]
 
-        if DEBUG: self.seq = seq
+        if DEBUG:
+            self.seq = seq
         return seq
 
     def readFile(self, paths):
@@ -38,7 +41,7 @@ class MarkovChain:
         words = []
         for fp in paths:
             f = open(fp, 'r')
-            words.extend(f.read().replace('\n',' ').split())
+            words.extend(f.read().replace('\n', ' ').split())
             f.close()
             return words
 
@@ -69,12 +72,12 @@ class MarkovChain:
                 # Pre-populate key with None as necessary.
                 # could also just start at i=0, but this way helps gen()
                 ii = 0
-                key = (None,)*abs(i)
+                key = (None,) * abs(i)
             else:
                 ii = i
                 key = ()
 
-            key += tuple(seq[ii:i+lookback])
+            key += tuple(seq[ii:i + lookback])
             value = seq[i + lookback]
 
             if DEBUG:
@@ -100,7 +103,7 @@ class MarkovChain:
         """
         key = seed
         result = [x for x in key]
-        i=-1
+        i = -1
         while i < size:
             i += 1
             if gaurantee_size:
@@ -132,7 +135,7 @@ class MarkovChain:
             then set each key = key[1:] and try matching again
         """
         i = -1
-        keys= []
+        keys = []
         while len(keys) == 0 and i < len(key) - 1:
             i += 1
             keys = [x for x in mapping.keys() if x[i:] == key[i:]]
